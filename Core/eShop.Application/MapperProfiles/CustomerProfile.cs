@@ -4,8 +4,8 @@ public class CustomerProfile: Profile
 {
 	public CustomerProfile()
 	{
-        CreateMap<CustomerViewModel, Customer>().ReverseMap();
-        CreateMap<CreateCustomerViewModel, Customer>().ReverseMap();
-        CreateMap<UpdateCustomerViewModel, Customer>().ReverseMap();
+        CreateMap<CustomerDto, Customer>().ReverseMap();
+        CreateMap<CreateCustomerDto, Customer>().ReverseMap();
+        CreateMap<UpdateCustomerDto, Customer>().ReverseMap();
     }
 }

@@ -19,7 +19,7 @@ public class OrderController : ControllerBase
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateOrderViewModel viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateOrderDto viewModel)
     {
         try
         {
@@ -45,13 +45,13 @@ public class OrderController : ControllerBase
     {
         try
         {
-            var viewModels = new List<OrderViewModel>();
+            var viewModels = new List<OrderDto>();
 
             var dbOrders = (await _orderReadRepository.GetAllAsync(tracking: false)).OrderBy(order => order.CreatedDateTime);
             var totalOrderCount = dbOrders.Count();
             var orders = await dbOrders.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
 
-            orders.ForEach(order => viewModels.Add(_mapper.Map<OrderViewModel>(order)));
+            orders.ForEach(order => viewModels.Add(_mapper.Map<OrderDto>(order)));
 
             return Ok(new { totalOrderCount, viewModels });
         }
@@ -62,7 +62,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateOrderViewModel viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateOrderDto viewModel)
     {
         try
         {

@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateProductViewModel viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateProductDto viewModel)
     {
         try
         {
@@ -45,13 +45,13 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var viewModels = new List<ProductViewModel>();
+            var viewModels = new List<ProductDto>();
 
             var dbProducts = (await _productReadRepository.GetAllAsync(tracking: false)).Include("Category").OrderBy(product => product.CreatedDateTime);
             var totalProductCount = dbProducts.Count();
             var products = await dbProducts.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
 
-            products.ForEach(product => viewModels.Add(_mapper.Map<ProductViewModel>(product)));
+            products.ForEach(product => viewModels.Add(_mapper.Map<ProductDto>(product)));
 
             return Ok(new { totalProductCount, viewModels });
         }
@@ -62,7 +62,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateProductViewModel viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateProductDto viewModel)
     {
         try
         {

@@ -4,8 +4,8 @@ public class CategoryProfile: Profile
 {
 	public CategoryProfile()
 	{
-        CreateMap<CategoryViewModel, Category>().ReverseMap();
-        CreateMap<CreateCategoryViewModel, Category>().ReverseMap();
-        CreateMap<UpdateCategoryViewModel, Category>().ReverseMap();
+        CreateMap<CategoryDto, Category>().ReverseMap();
+        CreateMap<CreateCategoryDto, Category>().ReverseMap();
+        CreateMap<UpdateCategoryDto, Category>().ReverseMap();
     }
 }

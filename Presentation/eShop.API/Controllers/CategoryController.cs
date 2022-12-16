@@ -19,7 +19,7 @@ public class CategoryController : ControllerBase
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateCategoryViewModel viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryDto viewModel)
     {
         try
         {
@@ -43,13 +43,13 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var viewModels = new List<CategoryViewModel>();
+            var viewModels = new List<CategoryDto>();
 
             var dbCategories = (await _categoryReadRepository.GetAllAsync(tracking: false)).OrderBy(category => category.CreatedDateTime);
             var totalCategoryCount = dbCategories.Count();
             var categories = await dbCategories.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
 
-            categories.ForEach(category => viewModels.Add(_mapper.Map<CategoryViewModel>(category)));
+            categories.ForEach(category => viewModels.Add(_mapper.Map<CategoryDto>(category)));
 
             return Ok(new { totalCategoryCount, viewModels });
         }
@@ -60,7 +60,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCategoryViewModel viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateCategoryDto viewModel)
     {
         try
         {

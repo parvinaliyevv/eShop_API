@@ -19,7 +19,7 @@ public class CustomerController : ControllerBase
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateCustomerViewModel viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateCustomerDto viewModel)
     {
         try
         {
@@ -43,13 +43,13 @@ public class CustomerController : ControllerBase
     {
         try
         {
-            var viewModels = new List<CustomerViewModel>();
+            var viewModels = new List<CustomerDto>();
 
             var dbCustomers = (await _customerReadRepository.GetAllAsync(tracking: false)).OrderBy(customer => customer.CreatedDateTime);
             var totalCustomerCount = dbCustomers.Count();
             var customers = await dbCustomers.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
 
-            customers.ForEach(customer => viewModels.Add(_mapper.Map<CustomerViewModel>(customer)));
+            customers.ForEach(customer => viewModels.Add(_mapper.Map<CustomerDto>(customer)));
 
             return Ok(new { totalCustomerCount, viewModels });
         }
@@ -60,7 +60,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCustomerViewModel viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateCustomerDto viewModel)
     {
         try
         {

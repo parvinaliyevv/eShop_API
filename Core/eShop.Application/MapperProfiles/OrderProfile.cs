@@ -4,15 +4,15 @@ public class OrderProfile: Profile
 {
 	public OrderProfile()
 	{
-        CreateMap<Order, OrderViewModel>()
+        CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.CustomerName, opt => opt.MapFrom((src, dest) => src.Customer.Name))
             .ReverseMap();
 
-        CreateMap<CreateOrderViewModel, Order>()
+        CreateMap<CreateOrderDto, Order>()
            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom((src, dest) => Guid.TryParse(src.CustomerId, out Guid guid) ? guid : Guid.Empty))
             .ReverseMap();
 
-        CreateMap<UpdateOrderViewModel, Order>()
+        CreateMap<UpdateOrderDto, Order>()
             .ForMember(dest => dest.CustomerId, opt => opt.MapFrom((src, dest) => Guid.TryParse(src.CustomerId, out Guid guid) ? guid : Guid.Empty))
             .ReverseMap();
     }
