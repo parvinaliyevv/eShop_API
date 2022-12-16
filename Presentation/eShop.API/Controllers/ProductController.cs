@@ -3,34 +3,24 @@
 [ApiController, Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
-    private readonly IMapper _mapper;
-
-    private readonly IProductReadRepository _productReadRepository;
-    private readonly IProductWriteRepository _productWriteRepository;
+    private readonly IMediator _mediator;
 
 
-    public ProductController(IMapper mapper, IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository)
+    public ProductController(IMediator mediator)
     {
-        _mapper = mapper;
-
-        _productReadRepository = productReadRepository;
-        _productWriteRepository = productWriteRepository;
+        _mediator = mediator;
     }
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateProductDto viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var product = _mapper.Map<Product>(viewModel);
-
-            if (product.CategoryId == Guid.Empty) product.CategoryId = null;
-
-            await _productWriteRepository.AddAsync(product);
-            await _productWriteRepository.SaveChangesAsync();
+            var request = new AddProductCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
             return StatusCode((int)HttpStatusCode.Created);
         }
@@ -41,19 +31,13 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("Read")]
-    public async Task<IActionResult> Read([FromQuery] Pagination pagination)
+    public async Task<IActionResult> Read([FromQuery] GetProductsQueryRequest request)
     {
         try
         {
-            var viewModels = new List<ProductDto>();
+            var response = await _mediator.Send(request);
 
-            var dbProducts = (await _productReadRepository.GetAllAsync(tracking: false)).Include("Category").OrderBy(product => product.CreatedDateTime);
-            var totalProductCount = dbProducts.Count();
-            var products = await dbProducts.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
-
-            products.ForEach(product => viewModels.Add(_mapper.Map<ProductDto>(product)));
-
-            return Ok(new { totalProductCount, viewModels });
+            return Ok(response);
         }
         catch
         {
@@ -62,26 +46,15 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateProductDto viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateProductDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!await _productWriteRepository.ExistsAsync(viewModel.Id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            var response = await _mediator.Send(dto);
 
-            var product = _mapper.Map<Product>(viewModel);
-
-            if (product.CategoryId == Guid.Empty) product.CategoryId = null;
-
-            await _productWriteRepository.RemoveAsync(viewModel.Id);
-            await _productWriteRepository.SaveChangesAsync();
-
-            await _productWriteRepository.AddAsync(product);
-            await _productWriteRepository.SaveChangesAsync();
-
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {
@@ -94,13 +67,9 @@ public class ProductController : ControllerBase
     {
         try
         {
-            if (! await _productWriteRepository.ExistsAsync(id)) 
-                return StatusCode((int)HttpStatusCode.NoContent);
-
-            await _productWriteRepository.RemoveAsync(id);
-            await _productWriteRepository.SaveChangesAsync();
-
-            return StatusCode((int)HttpStatusCode.OK);
+            var response = await _mediator.Send(id);
+            
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {
