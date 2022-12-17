@@ -6,8 +6,12 @@ public abstract record BaseOrderDto
     public string Description { get; set; }
 }
 
-public record OrderDto(string CustomerName): BaseOrderDto;
+public record OrderDto(string Id, string CustomerName): BaseOrderDto
+{
+    public string? CustomerName { get; set; }
+    public ICollection<ProductDto> Products { get; set; } = new List<ProductDto>();
+}
 
 public record CreateOrderDto(string CustomerId) : BaseOrderDto;
 
-public record UpdateOrderDto(string Id, string CustomerId): BaseOrderDto;
+public record UpdateOrderDto(string Id, string CustomerId) : BaseOrderDto;

@@ -4,9 +4,7 @@ public class ProductProfile: Profile
 {
 	public ProductProfile()
 	{
-		CreateMap<Product, ProductDto>()
-            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom((src, dest) => src.Category.Name))
-            .ReverseMap();
+		CreateMap<Product, ProductDto>().ReverseMap();
 
 		CreateMap<CreateProductDto, Product>()
            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom((src, dest) => Guid.TryParse(src.CategoryId, out Guid guid) ? guid : Guid.Empty))

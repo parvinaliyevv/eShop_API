@@ -5,7 +5,7 @@ public abstract record BaseCategoryDto
     public string Name { get; set; }
 }
 
-public record CategoryDto : BaseCategoryDto;
+public record CategoryDto(string Id) : BaseCategoryDto;
 
 public record CreateCategoryDto : BaseCategoryDto;
 

@@ -23,9 +23,9 @@ public class AppDbContext: DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var entires = ChangeTracker.Entries<BaseEntity>();
+        var entries = ChangeTracker.Entries<BaseEntity>();
 
-        foreach (var item in entires)
+        foreach (var item in entries)
         {
             if (item.State == EntityState.Unchanged)
             {

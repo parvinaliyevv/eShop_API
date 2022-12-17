@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var request = new AddProductCommandRequest(dto);
+            var request = new CreateProductCommandRequest(dto);
             var response = await _mediator.Send(request);
 
             return StatusCode((int)HttpStatusCode.Created);
@@ -35,6 +35,8 @@ public class ProductController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var response = await _mediator.Send(request);
 
             return Ok(response);
@@ -52,7 +54,8 @@ public class ProductController : ControllerBase
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var response = await _mediator.Send(dto);
+            var request = new UpdateProductCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
             return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
@@ -63,11 +66,13 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete([FromQuery] string id)
+    public async Task<IActionResult> Delete([FromQuery] DeleteProductCommandRequest request)
     {
         try
         {
-            var response = await _mediator.Send(id);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var response = await _mediator.Send(request);
             
             return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }

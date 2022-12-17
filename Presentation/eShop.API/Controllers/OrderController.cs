@@ -3,34 +3,24 @@
 [ApiController, Route("api/[controller]")]
 public class OrderController : ControllerBase
 {
-    private readonly IMapper _mapper;
-
-    private readonly IOrderReadRepository _orderReadRepository;
-    private readonly IOrderWriteRepository _orderWriteRepository;
+    private readonly IMediator _mediator;
 
 
-    public OrderController(IMapper mapper, IOrderReadRepository orderReadRepository, IOrderWriteRepository orderWriteRepository)
+    public OrderController(IMediator mediator)
     {
-        _mapper = mapper;
-
-        _orderReadRepository = orderReadRepository;
-        _orderWriteRepository = orderWriteRepository;
+        _mediator = mediator;
     }
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateOrderDto viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateOrderDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var order = _mapper.Map<Order>(viewModel);
-
-            if (order.CustomerId == Guid.Empty) order.CustomerId = null;
-
-            await _orderWriteRepository.AddAsync(order);
-            await _orderWriteRepository.SaveChangesAsync();
+            var request = new CreateOrderCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
             return StatusCode((int)HttpStatusCode.Created);
         }
@@ -41,19 +31,15 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("Read")]
-    public async Task<IActionResult> Read([FromQuery] Pagination pagination)
+    public async Task<IActionResult> Read([FromQuery] GetOrdersQueryRequest request)
     {
         try
         {
-            var viewModels = new List<OrderDto>();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var dbOrders = (await _orderReadRepository.GetAllAsync(tracking: false)).OrderBy(order => order.CreatedDateTime);
-            var totalOrderCount = dbOrders.Count();
-            var orders = await dbOrders.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
+            var response = await _mediator.Send(request);
 
-            orders.ForEach(order => viewModels.Add(_mapper.Map<OrderDto>(order)));
-
-            return Ok(new { totalOrderCount, viewModels });
+            return Ok(response);
         }
         catch
         {
@@ -62,26 +48,16 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateOrderDto viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateOrderDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!await _orderWriteRepository.ExistsAsync(viewModel.Id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            var request = new UpdateOrderCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
-            var order = _mapper.Map<Order>(viewModel);
-
-            if (order.CustomerId == Guid.Empty) order.CustomerId = null;
-
-            await _orderWriteRepository.RemoveAsync(viewModel.Id);
-            await _orderWriteRepository.SaveChangesAsync();
-
-            await _orderWriteRepository.AddAsync(order);
-            await _orderWriteRepository.SaveChangesAsync();
-
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {
@@ -90,17 +66,15 @@ public class OrderController : ControllerBase
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete([FromQuery] string id)
+    public async Task<IActionResult> Delete([FromQuery] DeleteOrderCommandRequest request)
     {
         try
         {
-            if (!await _orderWriteRepository.ExistsAsync(id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _orderWriteRepository.RemoveAsync(id);
-            await _orderWriteRepository.SaveChangesAsync();
+            var response = await _mediator.Send(request);
 
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {

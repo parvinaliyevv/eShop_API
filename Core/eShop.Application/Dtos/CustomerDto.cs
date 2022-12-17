@@ -6,7 +6,7 @@ public abstract record BaseCustomerDto
     public string Surname { get; set; }
 }
 
-public record CustomerDto: BaseCustomerDto;
+public record CustomerDto(string Id): BaseCustomerDto;
 
 public record CreateCustomerDto: BaseCustomerDto;
 

@@ -2,21 +2,21 @@
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandRequest, DeleteProductCommandResponse>
 {
-    private readonly IProductWriteRepository _productWriteRepository;
+    private readonly IProductWriteRepository _writeRepository;
 
 
-    public DeleteProductCommandHandler(IProductWriteRepository productWriteRepository)
+    public DeleteProductCommandHandler(IProductWriteRepository writeRepository)
     {
-        _productWriteRepository = productWriteRepository;
+        _writeRepository = writeRepository;
     }
 
 
     public async Task<DeleteProductCommandResponse> Handle(DeleteProductCommandRequest request, CancellationToken cancellationToken)
     {
-        if (!await _productWriteRepository.ExistsAsync(request.Id)) return null;
+        if (!_writeRepository.Exists(request.Id)) return null;
 
-        await _productWriteRepository.RemoveAsync(request.Id);
-        await _productWriteRepository.SaveChangesAsync();
+        await _writeRepository.RemoveAsync(request.Id);
+        await _writeRepository.SaveChangesAsync();
 
         return new();
     }

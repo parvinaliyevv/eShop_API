@@ -2,8 +2,12 @@
 
 public static class ContainerRegistrationService
 {
-    public static void PersistenceRegister(this IServiceCollection services)
+    public static void ApplicationRegister(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(ContainerRegistrationService));
+        var currentAssembly = Assembly.GetExecutingAssembly();
+
+        services.AddMediatR(currentAssembly);
+        services.AddAutoMapper(currentAssembly);
+        services.AddFluentValidation(x => x.RegisterValidatorsFromAssembly(currentAssembly));
     }
 }

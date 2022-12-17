@@ -3,32 +3,24 @@
 [ApiController, Route("api/[controller]")]
 public class CategoryController : ControllerBase
 {
-    private readonly IMapper _mapper;
-
-    private readonly ICategoryReadRepository _categoryReadRepository;
-    private readonly ICategoryWriteRepository _categoryWriteRepository;
+    private readonly IMediator _mediator;
 
 
-    public CategoryController(IMapper mapper, ICategoryReadRepository categoryReadRepository, ICategoryWriteRepository categoryWriteRepository)
+    public CategoryController(IMediator mediator)
     {
-        _mapper = mapper;
-
-        _categoryReadRepository = categoryReadRepository;
-        _categoryWriteRepository = categoryWriteRepository;
+        _mediator = mediator;
     }
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateCategoryDto viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var category = _mapper.Map<Category>(viewModel);
-
-            await _categoryWriteRepository.AddAsync(category);
-            await _categoryWriteRepository.SaveChangesAsync();
+            var request = new CreateCategoryCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
             return StatusCode((int)HttpStatusCode.Created);
         }
@@ -39,19 +31,15 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("Read")]
-    public async Task<IActionResult> Read([FromQuery] Pagination pagination)
+    public async Task<IActionResult> Read([FromQuery] GetCategoriesQueryRequest request)
     {
         try
         {
-            var viewModels = new List<CategoryDto>();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var dbCategories = (await _categoryReadRepository.GetAllAsync(tracking: false)).OrderBy(category => category.CreatedDateTime);
-            var totalCategoryCount = dbCategories.Count();
-            var categories = await dbCategories.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
+            var response = await _mediator.Send(request);
 
-            categories.ForEach(category => viewModels.Add(_mapper.Map<CategoryDto>(category)));
-
-            return Ok(new { totalCategoryCount, viewModels });
+            return Ok(response);
         }
         catch
         {
@@ -60,24 +48,16 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCategoryDto viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateCategoryDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!await _categoryWriteRepository.ExistsAsync(viewModel.Id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            var request = new UpdateCategoryCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
-            var category = _mapper.Map<Category>(viewModel);
-
-            await _categoryWriteRepository.RemoveAsync(viewModel.Id);
-            await _categoryWriteRepository.SaveChangesAsync();
-
-            await _categoryWriteRepository.AddAsync(category);
-            await _categoryWriteRepository.SaveChangesAsync();
-
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {
@@ -86,17 +66,15 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete([FromQuery] string id)
+    public async Task<IActionResult> Delete([FromQuery] DeleteCategoryCommandRequest request)
     {
         try
         {
-            if (!await _categoryWriteRepository.ExistsAsync(id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _categoryWriteRepository.RemoveAsync(id);
-            await _categoryWriteRepository.SaveChangesAsync();
+            var response = await _mediator.Send(request);
 
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {

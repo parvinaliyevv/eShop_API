@@ -3,32 +3,24 @@
 [ApiController, Route("api/[controller]")]
 public class CustomerController : ControllerBase
 {
-    private readonly IMapper _mapper;
-
-    private readonly ICustomerReadRepository _customerReadRepository;
-    private readonly ICustomerWriteRepository _customerWriteRepository;
+    private readonly IMediator _mediator;
 
 
-    public CustomerController(IMapper mapper, ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository)
+    public CustomerController(IMediator mediator)
     {
-        _mapper = mapper;
-
-        _customerReadRepository = customerReadRepository;
-        _customerWriteRepository = customerWriteRepository;
+        _mediator = mediator;
     }
 
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateCustomerDto viewModel)
+    public async Task<IActionResult> Create([FromBody] CreateCustomerDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var customer = _mapper.Map<Customer>(viewModel);
-
-            await _customerWriteRepository.AddAsync(customer);
-            await _customerWriteRepository.SaveChangesAsync();
+            var request = new CreateCustomerCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
             return StatusCode((int)HttpStatusCode.Created);
         }
@@ -39,19 +31,15 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet("Read")]
-    public async Task<IActionResult> Read([FromQuery] Pagination pagination)
+    public async Task<IActionResult> Read([FromQuery] GetCustomersQueryRequest request)
     {
         try
         {
-            var viewModels = new List<CustomerDto>();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var dbCustomers = (await _customerReadRepository.GetAllAsync(tracking: false)).OrderBy(customer => customer.CreatedDateTime);
-            var totalCustomerCount = dbCustomers.Count();
-            var customers = await dbCustomers.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
+            var response = await _mediator.Send(request);
 
-            customers.ForEach(customer => viewModels.Add(_mapper.Map<CustomerDto>(customer)));
-
-            return Ok(new { totalCustomerCount, viewModels });
+            return Ok(response);
         }
         catch
         {
@@ -60,24 +48,16 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCustomerDto viewModel)
+    public async Task<IActionResult> Update([FromBody] UpdateCustomerDto dto)
     {
         try
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!await _customerWriteRepository.ExistsAsync(viewModel.Id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            var request = new UpdateCustomerCommandRequest(dto);
+            var response = await _mediator.Send(request);
 
-            var customer = _mapper.Map<Customer>(viewModel);
-
-            await _customerWriteRepository.RemoveAsync(viewModel.Id);
-            await _customerWriteRepository.SaveChangesAsync();
-
-            await _customerWriteRepository.AddAsync(customer);
-            await _customerWriteRepository.SaveChangesAsync();
-
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {
@@ -86,17 +66,15 @@ public class CustomerController : ControllerBase
     }
 
     [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete([FromQuery] string id)
+    public async Task<IActionResult> Delete([FromQuery] DeleteCustomerCommandRequest request)
     {
         try
         {
-            if (!await _customerWriteRepository.ExistsAsync(id))
-                return StatusCode((int)HttpStatusCode.NoContent);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _customerWriteRepository.RemoveAsync(id);
-            await _customerWriteRepository.SaveChangesAsync();
+            var response = await _mediator.Send(request);
 
-            return StatusCode((int)HttpStatusCode.OK);
+            return response is not null ? StatusCode((int)HttpStatusCode.OK) : StatusCode((int)HttpStatusCode.NoContent);
         }
         catch
         {

@@ -8,7 +8,7 @@ public abstract record BaseProductDto
     public int Stock { get; set; }
 }
 
-public record ProductDto(string CategoryName): BaseProductDto;
+public record ProductDto(string Id, string CategoryName): BaseProductDto;
 
 public record CreateProductDto(string CategoryId): BaseProductDto;
 
