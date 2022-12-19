@@ -15,5 +15,13 @@ public class ProductOrderConfiguration : IEntityTypeConfiguration<ProductOrder>
             .WithMany(o => o.ProductOrders)
             .HasForeignKey(pt => pt.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        var productOrders = new List<ProductOrder>()
+        {
+            new ProductOrder(ProductConfiguration.firstProductId, OrderConfiguration.orderId),
+            new ProductOrder(ProductConfiguration.secondProductId, OrderConfiguration.orderId),
+        };
+
+        builder.HasData(productOrders);
     }
 }

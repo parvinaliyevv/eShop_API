@@ -7,4 +7,11 @@ public class ProductOrder
 
     public Guid OrderId { get; set; }
     public Order Order { get; set; }
+
+
+    public ProductOrder(Guid productId, Guid orderId)
+    {
+        ProductId = productId;
+        OrderId = orderId;
+    }
 }

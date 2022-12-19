@@ -2,6 +2,9 @@
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
+    public static readonly Guid firstProductId = Guid.NewGuid();
+    public static readonly Guid secondProductId = Guid.NewGuid();
+
     public void Configure(EntityTypeBuilder<Product> builder)
     {
         builder.HasOne(p => p.Category)
@@ -9,29 +12,29 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.SetNull);
 
-        var products = new List<Product>() // CategoryId in migration file
+        var products = new List<Product>()
         {
             new Product()
             {
-                Id = Guid.NewGuid(),
+                Id = firstProductId,
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now,
                 Name = "Iphone 11",
                 Description = "128 gb black",
                 Price = 1399,
                 Stock = 50,
-                CategoryId = null
+                CategoryId = CategoryConfiguration.categoryId
             },
             new Product()
             {
-                Id = Guid.NewGuid(),
+                Id = secondProductId,
                 CreatedDateTime = DateTime.Now,
                 UpdatedDateTime = DateTime.Now,
                 Name = "Iphone 11",
                 Description = "64 gb white",
                 Price = 1199,
                 Stock = 50,
-                CategoryId = null
+                CategoryId = CategoryConfiguration.categoryId
             },
             new Product()
             {
@@ -42,7 +45,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                 Description = "128 gb white",
                 Price = 1399,
                 Stock = 50,
-                CategoryId = null
+                CategoryId = CategoryConfiguration.categoryId
             }
         };
 

@@ -111,37 +111,37 @@ namespace eShop.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedDateTime", "Name", "UpdatedDateTime" },
-                values: new object[] { new Guid("44c82bb0-69da-4a9a-944d-85e7f2b34a5a"), new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(4535), "Smartphone", new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(4538) });
+                values: new object[] { new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"), new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6439), "Smartphone", new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6440) });
 
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "Id", "CreatedDateTime", "Name", "Surname", "UpdatedDateTime" },
-                values: new object[] { new Guid("2611f479-f66d-4680-8c52-14356f2b41e0"), new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(4199), "John", "Doe", new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(4203) });
+                values: new object[] { new Guid("3afc4bbb-60b7-4b94-b84e-97820597b520"), new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6370), "John", "Doe", new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6371) });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "CreatedDateTime", "CustomerId", "Description", "UpdatedDateTime" },
-                values: new object[] { new Guid("12a82fd8-5b41-4be6-89e3-299c517ec0ee"), "(217) 348-8633\r\n1418 6th St\r\nCharleston, Illinois(IL), 61920", new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(198), new Guid("2611f479-f66d-4680-8c52-14356f2b41e0"), "Iphone 11", new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(213) });
+                values: new object[] { new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9"), "(217) 348-8633\r\n1418 6th St\r\nCharleston, Illinois(IL), 61920", new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(4889), new Guid("3afc4bbb-60b7-4b94-b84e-97820597b520"), "Iphone 11", new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(4901) });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "CategoryId", "CreatedDateTime", "Description", "Name", "Price", "Stock", "UpdatedDateTime" },
                 values: new object[,]
                 {
-                    { new Guid("36b09fbd-652c-4948-be89-d0566d5f0a74"), new Guid("44c82bb0-69da-4a9a-944d-85e7f2b34a5a"), new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3774), "64 gb white", "Iphone 11", 1199.0, 50, new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3775) },
-                    { new Guid("55ea91c2-f379-48fe-81c7-916221214984"), new Guid("44c82bb0-69da-4a9a-944d-85e7f2b34a5a"), new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3755), "128 gb black", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3760) },
-                    { new Guid("e88b8789-0174-49a5-ad7b-f6054b699af4"), new Guid("44c82bb0-69da-4a9a-944d-85e7f2b34a5a"), new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3780), "128 gb white", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 17, 18, 10, 48, 939, DateTimeKind.Local).AddTicks(3781) }
+                    { new Guid("0bd8cad2-1ea0-4302-9ebf-612c2c77ca95"), new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"), new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6255), "128 gb white", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6255) },
+                    { new Guid("5c6460be-a137-4ab3-845c-43accca7dbcd"), new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"), new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6231), "64 gb white", "Iphone 11", 1199.0, 50, new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6232) },
+                    { new Guid("8ca3b302-7a9c-4738-b5bf-1674bb298e29"), new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"), new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6223), "128 gb black", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6226) }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductOrders",
-                columns: new[] { "ProductId", "OrderId" },
-                values: new object[,]
-                {
-                    { new Guid("36b09fbd-652c-4948-be89-d0566d5f0a74"), new Guid("12a82fd8-5b41-4be6-89e3-299c517ec0ee") },
-                    { new Guid("55ea91c2-f379-48fe-81c7-916221214984"), new Guid("12a82fd8-5b41-4be6-89e3-299c517ec0ee") },
-                    { new Guid("e88b8789-0174-49a5-ad7b-f6054b699af4"), new Guid("12a82fd8-5b41-4be6-89e3-299c517ec0ee") }
-                });
+                columns: new[] { "OrderId", "ProductId" },
+                values: new object[] { new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9"), new Guid("5c6460be-a137-4ab3-845c-43accca7dbcd") });
+
+            migrationBuilder.InsertData(
+                table: "ProductOrders",
+                columns: new[] { "OrderId", "ProductId" },
+                values: new object[] { new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9"), new Guid("8ca3b302-7a9c-4738-b5bf-1674bb298e29") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
