@@ -30,7 +30,7 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
         var result = Table.Add(entity);
         _dbContext.SaveChanges();
 
-        return result.State == EntityState.Added;
+        return result.State == EntityState.Unchanged;
     }
     public async Task<bool> AddAsync(T entity) => await Task.Factory.StartNew(() => Add(entity));
 

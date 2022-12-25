@@ -1,6 +1,7 @@
 ﻿namespace eShop.API.Controllers;
 
-[ApiController, Route("api/[controller]")]
+[ApiController, Authorize]
+[Route("api/[controller]")]
 public class CategoryController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -12,7 +13,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpPost("Create")]
+    [HttpPost("[Action]")]
     public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
     {
         try
@@ -30,7 +31,7 @@ public class CategoryController : ControllerBase
         }
     }
 
-    [HttpGet("Read")]
+    [HttpGet("[Action]")]
     public async Task<IActionResult> Read([FromQuery] GetCategoriesQueryRequest request)
     {
         try
@@ -47,7 +48,7 @@ public class CategoryController : ControllerBase
         }
     }
 
-    [HttpPut("Update")]
+    [HttpPut("[Action]")]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryDto dto)
     {
         try
@@ -65,7 +66,7 @@ public class CategoryController : ControllerBase
         }
     }
 
-    [HttpDelete("Delete")]
+    [HttpDelete("[Action]")]
     public async Task<IActionResult> Delete([FromQuery] DeleteCategoryCommandRequest request)
     {
         try

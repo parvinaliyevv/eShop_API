@@ -1,6 +1,7 @@
 ﻿namespace eShop.API.Controllers;
 
-[ApiController, Route("api/[controller]")]
+[ApiController, Authorize]
+[Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -12,7 +13,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPost("Create")]
+    [HttpPost("[Action]")]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
         try
@@ -30,7 +31,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet("Read")]
+    [HttpGet("[Action]")]
     public async Task<IActionResult> Read([FromQuery] GetProductsQueryRequest request)
     {
         try
@@ -47,7 +48,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPut("Update")]
+    [HttpPut("[Action]")]
     public async Task<IActionResult> Update([FromBody] UpdateProductDto dto)
     {
         try
@@ -65,7 +66,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpDelete("Delete")]
+    [HttpDelete("[Action]")]
     public async Task<IActionResult> Delete([FromQuery] DeleteProductCommandRequest request)
     {
         try

@@ -45,10 +45,10 @@ namespace eShop.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"),
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6439),
+                            Id = new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6488),
                             Name = "Smartphone",
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6440)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6491)
                         });
                 });
 
@@ -79,11 +79,11 @@ namespace eShop.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3afc4bbb-60b7-4b94-b84e-97820597b520"),
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6370),
+                            Id = new Guid("5dd54910-ae6a-439d-b85b-5034cf34de20"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6179),
                             Name = "John",
                             Surname = "Doe",
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6371)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6182)
                         });
                 });
 
@@ -119,12 +119,12 @@ namespace eShop.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9"),
+                            Id = new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5"),
                             Address = "(217) 348-8633\r\n1418 6th St\r\nCharleston, Illinois(IL), 61920",
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(4889),
-                            CustomerId = new Guid("3afc4bbb-60b7-4b94-b84e-97820597b520"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(3423),
+                            CustomerId = new Guid("5dd54910-ae6a-439d-b85b-5034cf34de20"),
                             Description = "Iphone 11",
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(4901)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(3434)
                         });
                 });
 
@@ -166,36 +166,36 @@ namespace eShop.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8ca3b302-7a9c-4738-b5bf-1674bb298e29"),
-                            CategoryId = new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"),
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6223),
+                            Id = new Guid("3d074776-26b2-45ba-86c5-527cbf2c5297"),
+                            CategoryId = new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5729),
                             Description = "128 gb black",
                             Name = "Iphone 11",
                             Price = 1399.0,
                             Stock = 50,
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6226)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5733)
                         },
                         new
                         {
-                            Id = new Guid("5c6460be-a137-4ab3-845c-43accca7dbcd"),
-                            CategoryId = new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"),
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6231),
+                            Id = new Guid("84d2c679-22d7-4e78-b477-284c3e062cdb"),
+                            CategoryId = new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5746),
                             Description = "64 gb white",
                             Name = "Iphone 11",
                             Price = 1199.0,
                             Stock = 50,
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6232)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5747)
                         },
                         new
                         {
-                            Id = new Guid("0bd8cad2-1ea0-4302-9ebf-612c2c77ca95"),
-                            CategoryId = new Guid("5af53c6d-cd97-4c5a-b1b6-e4bbaf79ee39"),
-                            CreatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6255),
+                            Id = new Guid("c4628cfc-2421-45c1-a34e-568c8d7bd7e6"),
+                            CategoryId = new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"),
+                            CreatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5799),
                             Description = "128 gb white",
                             Name = "Iphone 11",
                             Price = 1399.0,
                             Stock = 50,
-                            UpdatedDateTime = new DateTime(2022, 12, 19, 13, 39, 25, 147, DateTimeKind.Local).AddTicks(6255)
+                            UpdatedDateTime = new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5802)
                         });
                 });
 
@@ -216,14 +216,28 @@ namespace eShop.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            ProductId = new Guid("8ca3b302-7a9c-4738-b5bf-1674bb298e29"),
-                            OrderId = new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9")
+                            ProductId = new Guid("3d074776-26b2-45ba-86c5-527cbf2c5297"),
+                            OrderId = new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5")
                         },
                         new
                         {
-                            ProductId = new Guid("5c6460be-a137-4ab3-845c-43accca7dbcd"),
-                            OrderId = new Guid("f88f4d79-6e63-466e-86df-c1e31da62ce9")
+                            ProductId = new Guid("84d2c679-22d7-4e78-b477-284c3e062cdb"),
+                            OrderId = new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5")
                         });
+                });
+
+            modelBuilder.Entity("eShop.Domain.Entities.Concrete.User", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("eShop.Domain.Entities.Concrete.Order", b =>

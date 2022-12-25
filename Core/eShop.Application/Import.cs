@@ -2,6 +2,7 @@
 global using System.Linq.Expressions;
 
 global using eShop.Application.Dtos;
+global using eShop.Application.Services;
 global using eShop.Domain.Entities.Abstract;
 global using eShop.Domain.Entities.Concrete;
 
