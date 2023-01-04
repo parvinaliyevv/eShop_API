@@ -23,7 +23,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                 Description = "128 gb black",
                 Price = 1399,
                 Stock = 50,
-                CategoryId = CategoryConfiguration.categoryId
+                CategoryId = CategoryConfiguration.categoryId,
+                Image = "iphone-11-black.jpg"
             },
             new Product()
             {
@@ -34,7 +35,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                 Description = "64 gb white",
                 Price = 1199,
                 Stock = 50,
-                CategoryId = CategoryConfiguration.categoryId
+                CategoryId = CategoryConfiguration.categoryId,
+                Image = "iphone-11-white.jpg"
             },
             new Product()
             {
@@ -45,7 +47,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                 Description = "128 gb white",
                 Price = 1399,
                 Stock = 50,
-                CategoryId = CategoryConfiguration.categoryId
+                CategoryId = CategoryConfiguration.categoryId,
+                Image = "iphone-11-white.jpg"
             }
         };
 

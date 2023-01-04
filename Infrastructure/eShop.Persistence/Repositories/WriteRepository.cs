@@ -18,7 +18,7 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
 
     public bool Exists(string id)
     {
-        Guid.TryParse(id, out Guid guid);
+        _ = Guid.TryParse(id, out Guid guid);
 
         var entity = Table.FirstOrDefault(e => e.Id == guid);
         return entity is not null ? true : false;
@@ -28,7 +28,6 @@ public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     public bool Add(T entity)
     {
         var result = Table.Add(entity);
-        _dbContext.SaveChanges();
 
         return result.State == EntityState.Unchanged;
     }

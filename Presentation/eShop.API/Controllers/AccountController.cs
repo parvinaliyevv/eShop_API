@@ -15,50 +15,64 @@ public class AccountController : ControllerBase
 		_tokenGeneratorService = tokenGeneratorService;
 
 		_mapper = mapper;
-	}
-
-
-	[HttpPost("[Action]")]
+    }
+    
+    
+    [HttpPost("[Action]")]
 	public async Task<IActionResult> SignIn([FromBody] SignInUserDto dto)
 	{
-		if (!ModelState.IsValid) return BadRequest(ModelState);
-
-		var user = await _userManager.FindUserByEmailAsync(dto.Email);
-
-		if (user is null) return NotFound();
-
-		if (await _userManager.CheckPasswordAsync(user, dto.Password))
+		try
 		{
-			var token = await _tokenGeneratorService.GenerateTokenAsync(user);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			return Ok(token);
+            var user = await _userManager.FindUserByEmailAsync(dto.Email);
+
+            if (user is null) return NotFound();
+
+            if (await _userManager.CheckPasswordAsync(user, dto.Password))
+            {
+                var token = await _tokenGeneratorService.GenerateTokenAsync(user);
+
+                return Ok(token);
+            }
+
+            ModelState.AddModelError("Invalid", "Invalid email or password!");
+
+            return Unauthorized(ModelState);
+        }
+		catch
+		{
+			return StatusCode((int)HttpStatusCode.InternalServerError);
 		}
-		
-		ModelState.AddModelError("Invalid", "Invalid email or password!");
-
-		return Unauthorized(ModelState);
 	}
 
 	[HttpPost("[Action]")]
 	public async Task<IActionResult> SignUp([FromBody] SignUpUserDto dto)
 	{
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-
-		var user = _mapper.Map<User>(dto);
-
-		if (!await _userManager.ExistsAsync(user.Email))
+		try
 		{
-			var result = await _userManager.CreateUserAsync(user, dto.Password);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			if (result)
-			{
-				var token = await _tokenGeneratorService.GenerateTokenAsync(user);
+            var user = _mapper.Map<User>(dto);
 
-				return Ok(token);
-			}
-		}
-		else ModelState.AddModelError("Exists", "User with this email already exists!");
+            if (!await _userManager.ExistsAsync(user.Email))
+            {
+                var result = await _userManager.CreateUserAsync(user, dto.Password);
 
-        return BadRequest(ModelState);
+                if (result)
+                {
+                    var token = await _tokenGeneratorService.GenerateTokenAsync(user);
+
+                    return Ok(token);
+                }
+            }
+            else ModelState.AddModelError("Exists", "User with this email already exists!");
+
+            return BadRequest(ModelState);
+        }
+		catch
+		{
+            return StatusCode((int)HttpStatusCode.InternalServerError);
+        }
 	}
 }

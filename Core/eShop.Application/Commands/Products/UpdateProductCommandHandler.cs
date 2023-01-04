@@ -2,14 +2,18 @@
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandRequest, UpdateProductCommandResponse>
 {
-    private readonly IMapper _mapper;
     private readonly IProductWriteRepository _writeRepository;
 
+    private readonly IMapper _mapper;
+    private readonly IStorageManager _storageManager;
 
-    public UpdateProductCommandHandler(IMapper mapper, IProductWriteRepository writeRepository)
+
+    public UpdateProductCommandHandler(IProductWriteRepository writeRepository, IMapper mapper, IStorageManager storageManager)
     {
-        _mapper = mapper;
         _writeRepository = writeRepository;
+
+        _mapper = mapper;
+        _storageManager = storageManager;
     }
 
 
@@ -23,6 +27,8 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandR
 
         await _writeRepository.RemoveAsync(request.Dto.Id);
         await _writeRepository.SaveChangesAsync();
+
+        await _storageManager.UploadFileAsync(request.Dto.Image, product.Image);
 
         await _writeRepository.AddAsync(product);
         await _writeRepository.SaveChangesAsync();

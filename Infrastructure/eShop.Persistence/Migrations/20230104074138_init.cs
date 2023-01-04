@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -60,6 +59,7 @@ namespace eShop.Persistence.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -123,37 +123,37 @@ namespace eShop.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedDateTime", "Name", "UpdatedDateTime" },
-                values: new object[] { new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"), new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6488), "Smartphone", new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6491) });
+                values: new object[] { new Guid("57fa1374-1566-47e7-b38c-67761d6f80b3"), new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(5448), "Smartphone", new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(5451) });
 
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "Id", "CreatedDateTime", "Name", "Surname", "UpdatedDateTime" },
-                values: new object[] { new Guid("5dd54910-ae6a-439d-b85b-5034cf34de20"), new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6179), "John", "Doe", new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(6182) });
+                values: new object[] { new Guid("6f37954b-bcf5-4e9e-97e9-b71670226eea"), new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(5167), "John", "Doe", new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(5170) });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "CreatedDateTime", "CustomerId", "Description", "UpdatedDateTime" },
-                values: new object[] { new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5"), "(217) 348-8633\r\n1418 6th St\r\nCharleston, Illinois(IL), 61920", new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(3423), new Guid("5dd54910-ae6a-439d-b85b-5034cf34de20"), "Iphone 11", new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(3434) });
+                values: new object[] { new Guid("39973b5e-80b2-4a22-b02f-972805dbb74c"), "(217) 348-8633\r\n1418 6th St\r\nCharleston, Illinois(IL), 61920", new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(1786), new Guid("6f37954b-bcf5-4e9e-97e9-b71670226eea"), "Iphone 11", new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(1800) });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "CreatedDateTime", "Description", "Name", "Price", "Stock", "UpdatedDateTime" },
+                columns: new[] { "Id", "CategoryId", "CreatedDateTime", "Description", "Image", "Name", "Price", "Stock", "UpdatedDateTime" },
                 values: new object[,]
                 {
-                    { new Guid("3d074776-26b2-45ba-86c5-527cbf2c5297"), new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"), new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5729), "128 gb black", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5733) },
-                    { new Guid("84d2c679-22d7-4e78-b477-284c3e062cdb"), new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"), new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5746), "64 gb white", "Iphone 11", 1199.0, 50, new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5747) },
-                    { new Guid("c4628cfc-2421-45c1-a34e-568c8d7bd7e6"), new Guid("8782db3e-95bb-4c89-a92f-d3e92b9dceff"), new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5799), "128 gb white", "Iphone 11", 1399.0, 50, new DateTime(2022, 12, 25, 21, 24, 27, 859, DateTimeKind.Local).AddTicks(5802) }
+                    { new Guid("0aa90116-118a-4681-bfe7-fc778ea5408d"), new Guid("57fa1374-1566-47e7-b38c-67761d6f80b3"), new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4793), "128 gb black", "iphone-11-black.jpg", "Iphone 11", 1399.0, 50, new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4799) },
+                    { new Guid("2943329b-8cd0-4ee1-9ffc-d22cf298917f"), new Guid("57fa1374-1566-47e7-b38c-67761d6f80b3"), new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4853), "128 gb white", "iphone-11-white.jpg", "Iphone 11", 1399.0, 50, new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4854) },
+                    { new Guid("ed7f87fe-14b1-4071-adce-eaec17d4588e"), new Guid("57fa1374-1566-47e7-b38c-67761d6f80b3"), new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4816), "64 gb white", "iphone-11-white.jpg", "Iphone 11", 1199.0, 50, new DateTime(2023, 1, 4, 11, 41, 37, 913, DateTimeKind.Local).AddTicks(4817) }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductOrders",
                 columns: new[] { "OrderId", "ProductId" },
-                values: new object[] { new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5"), new Guid("3d074776-26b2-45ba-86c5-527cbf2c5297") });
+                values: new object[] { new Guid("39973b5e-80b2-4a22-b02f-972805dbb74c"), new Guid("0aa90116-118a-4681-bfe7-fc778ea5408d") });
 
             migrationBuilder.InsertData(
                 table: "ProductOrders",
                 columns: new[] { "OrderId", "ProductId" },
-                values: new object[] { new Guid("1b11eff0-3bb0-46be-8f5c-ee3e4e57cff5"), new Guid("84d2c679-22d7-4e78-b477-284c3e062cdb") });
+                values: new object[] { new Guid("39973b5e-80b2-4a22-b02f-972805dbb74c"), new Guid("ed7f87fe-14b1-4071-adce-eaec17d4588e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",

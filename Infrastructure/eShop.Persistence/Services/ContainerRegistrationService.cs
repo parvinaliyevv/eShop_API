@@ -2,10 +2,17 @@
 
 public static class ContainerRegistrationService
 {
-    public static void PersistenceRegister(this IServiceCollection services, IConfiguration _config)
+    public static void PersistenceRegister(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("Default")));
+        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlServerAuth")));
 
+        services.AddScoped<IUserManager, UserManager>();
+
+        RepositoryRegister(services);
+    }
+
+    private static void RepositoryRegister(this IServiceCollection services)
+    {
         services.AddScoped<IProductReadRepository, ProductReadRepository>();
         services.AddScoped<IOrderReadRepository, OrderReadRepository>();
         services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
@@ -15,7 +22,5 @@ public static class ContainerRegistrationService
         services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
         services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
         services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
-
-        services.AddScoped<IUserManager, UserManager>();
     }
 }

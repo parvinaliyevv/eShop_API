@@ -24,6 +24,7 @@ global using eShop.Application.Repositories.CategoryRepository;
 global using MediatR;
 global using AutoMapper;
 global using FluentValidation;
+global using Microsoft.AspNetCore.Http;
 global using FluentValidation.AspNetCore;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;

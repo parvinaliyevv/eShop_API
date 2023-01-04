@@ -2,14 +2,18 @@
 
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
 {
-    private readonly IMapper _mapper;
     private readonly IProductWriteRepository _writeRepository;
 
+    private readonly IMapper _mapper;
+    private readonly IStorageManager _storageManager;
 
-    public CreateProductCommandHandler(IMapper mapper, IProductWriteRepository writeRepository)
+
+    public CreateProductCommandHandler(IProductWriteRepository writeRepository, IMapper mapper, IStorageManager storageManager)
     {
-        _mapper = mapper;
         _writeRepository = writeRepository;
+
+        _mapper = mapper;
+        _storageManager = storageManager;
     }
 
 
@@ -18,6 +22,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandR
         var product = _mapper.Map<Product>(request.Dto);
 
         if (product.CategoryId == Guid.Empty) product.CategoryId = null;
+
+        await _storageManager.UploadFileAsync(request.Dto.Image, product.Image);
 
         await _writeRepository.AddAsync(product);
         await _writeRepository.SaveChangesAsync();

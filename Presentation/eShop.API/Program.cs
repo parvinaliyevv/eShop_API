@@ -16,15 +16,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
 
-            ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidAudience = builder.Configuration["JWT:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+            ValidIssuer = builder.Configuration["JsonWebToken:Issuer"],
+            ValidAudience = builder.Configuration["JsonWebToken:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JsonWebToken:Key"])),
         };
     });
 
 builder.Services.ApplicationRegister();
 builder.Services.PersistenceRegister(builder.Configuration);
-builder.Services.InfrastructureRegister();
+builder.Services.InfrastructureRegister(builder.Configuration);
 
 var app = builder.Build();
 

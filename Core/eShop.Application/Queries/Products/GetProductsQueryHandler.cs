@@ -2,14 +2,18 @@
 
 public class GetProductsQueryHandler : IRequestHandler<GetProductsQueryRequest, GetProductsQueryResponse>
 {
-    private readonly IMapper _mapper;
     private readonly IProductReadRepository _readRepository;
 
+    private readonly IMapper _mapper;
+    private readonly IStorageManager _storageManager;
 
-    public GetProductsQueryHandler(IMapper mapper, IProductReadRepository readRepository)
+
+    public GetProductsQueryHandler(IProductReadRepository readRepository, IMapper mapper, IStorageManager storageManager)
     {
-        _mapper = mapper;
         _readRepository = readRepository;
+
+        _mapper = mapper;
+        _storageManager = storageManager;
     }
 
 
@@ -21,7 +25,13 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQueryRequest, 
         var totalProductCount = dbProducts.Count();
         
         var products = await dbProducts.Skip(request.Page * request.Size).Take(request.Size).ToListAsync();
-        products.ForEach(product => dtos.Add(_mapper.Map<ProductDto>(product)));
+        products.ForEach(product =>
+        {
+            var productDto = _mapper.Map<ProductDto>(product);
+            productDto.ImageUrl = _storageManager.GetSignedUrl(product.Image);
+
+            dtos.Add(productDto);
+        });
 
         return new(totalProductCount, dtos);
     }

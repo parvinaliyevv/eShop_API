@@ -8,8 +8,11 @@ public abstract record BaseProductDto
     public int Stock { get; set; }
 }
 
-public record ProductDto(string Id, string CategoryName): BaseProductDto;
+public record ProductDto(string Id, string CategoryName): BaseProductDto
+{
+    public string ImageUrl { get; set; }
+}
 
-public record CreateProductDto(string CategoryId): BaseProductDto;
+public record CreateProductDto(string CategoryId, IFormFile Image) : BaseProductDto;
 
-public record UpdateProductDto(string Id, string CategoryId): BaseProductDto;
+public record UpdateProductDto(string Id, string CategoryId, IFormFile Image) : BaseProductDto;

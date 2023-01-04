@@ -2,9 +2,19 @@
 
 public class TokenGeneratorService : ITokenGeneratorService
 {
+
+    private readonly JsonWebTokenOptions _options;
+
+
+    public TokenGeneratorService(IOptions<JsonWebTokenOptions> options)
+    {
+        _options = options.Value;
+    }
+
+
     public string GenerateToken(User user)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationService.GetValue("JWT:Key")));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new Claim[]
@@ -13,8 +23,8 @@ public class TokenGeneratorService : ITokenGeneratorService
         };
 
         var token = new JwtSecurityToken(
-            issuer: ConfigurationService.GetValue("JWT:Issuer"),
-            audience: ConfigurationService.GetValue("JWT:Audience"),
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: credentials
