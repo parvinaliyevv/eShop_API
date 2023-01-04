@@ -12,4 +12,16 @@ public static class ContainerRegistrationService
         services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
         services.AddSingleton<IPasswordEncryptorService, Sha256PasswordEncryptorService>();
     }
+
+    public static void LoggerRegister(this ILoggingBuilder logging, IConfiguration configuration)
+    {
+        logging.ClearProviders();
+
+        var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+        logging.AddSerilog(logger);
+    }
 }

@@ -26,6 +26,8 @@ builder.Services.ApplicationRegister();
 builder.Services.PersistenceRegister(builder.Configuration);
 builder.Services.InfrastructureRegister(builder.Configuration);
 
+builder.Logging.LoggerRegister(builder.Configuration);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

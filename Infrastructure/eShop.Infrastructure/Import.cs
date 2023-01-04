@@ -7,9 +7,11 @@ global using eShop.Application.Services;
 global using eShop.Domain.Entities.Concrete;
 global using eShop.Infrastructure.Utilities;
 
+global using Serilog;
 global using Azure.Storage.Blobs;
 global using Microsoft.AspNetCore.Http;
 global using Azure.Storage.Blobs.Models;
+global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.Extensions.Configuration;
